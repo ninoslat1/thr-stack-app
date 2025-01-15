@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="text-blue-500">Welcome to D'Contact</h1>
+<form action="/login" method="post">
+    <label for="username">Username:</label>
+    <input type="text" id="UserCode" name="UserCode" required autocomplete="off">
+
+    <label for="password">Password:</label>
+    <input type="password" id="Password" name="Password" required>
+
+    <button type="submit">Login</button>
+</form>
+<div id="response" class="text-blue-500"></div>
+{% endblock %}

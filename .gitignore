@@ -1,0 +1,4 @@
+.env
+.sqlx
+node_modules
+target
