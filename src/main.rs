@@ -1,5 +1,8 @@
-use std::env;
+use std::{env, net::SocketAddr};
+use axum::Router;
 use dotenv::dotenv;
+use sqlx::{MySql, Pool};
+use tracing::info;
 
 mod libs;
 mod models;
@@ -11,12 +14,17 @@ mod templates;
 async fn main(){
     dotenv().ok();
     tracing_subscriber::fmt().init();
-    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    let pool = libs::get_db_pool(&database_url).await;
+    let database_url: String = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    let app_port: String = env::var("APP_PORT").expect("APP_PORT must be set");
+    let addr:SocketAddr = format!("0.0.0.0:{}", app_port).parse().expect("Invalid port format");
 
-    let app = routes::app_routes(pool);
+    let pool: Pool<MySql> = libs::get_db_pool(&database_url).await;
 
-    axum::Server::bind(&"127.0.0.1:3000".parse().unwrap())
+    let app: Router = routes::app_routes(pool);
+
+    info!("Server is running at http://{}", addr);
+    
+    axum::Server::bind(&addr)
         .serve(app.into_make_service())
         .await
         .unwrap();

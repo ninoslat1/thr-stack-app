@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  my-rhat-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3040:3040"
+    expose:
+      - "3040"
+    environment:
+      - APP_PORT=3040
+      - DATABASE_URL=mysql://root:@host.docker.internal:3306/usr
+    restart: always
+    networks:
+      - rhat-app-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+networks:
+  rhat-app-network:
+    name: rhat-app-network
+    driver: bridge

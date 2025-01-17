@@ -2,7 +2,6 @@ use crate::models::User;
 use sqlx::MySqlPool;
 use base64::Engine;
 use base64::engine::general_purpose::STANDARD;
-use tracing::info;
 
 impl User {
     pub async fn login(pool: &MySqlPool, username: &str, password: &str) -> Result<Option<String>, sqlx::Error> {

@@ -1078,7 +1078,7 @@ dependencies = [
 
 [[package]]
 name = "my-rhat-app"
-version = "0.0.0"
+version = "0.1.0"
 dependencies = [
  "askama",
  "axum",
